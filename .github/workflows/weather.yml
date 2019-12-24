@@ -1,0 +1,26 @@
+name: 'GitHub Actions Weather Bot'
+
+on:
+  push:
+  schedule:
+    - cron: '0 21 * * *'
+jobs: 
+  job_id:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: 'Checkout codes'
+        uses: actions/checkout@v1
+      - name: 'Get weather report'
+        run: bash ./weather.sh
+      - name: 'Send mail'
+        uses: dawidd6/action-send-mail@master
+        with:
+          serveraddress: smtp.gmail.com
+          serverport: 465
+          username: ${{ secrets.MAILUSERNAME }}
+          password: ${{ secrets.MAILPASSWORD }}
+          subject: Shanghai Weather Report
+          body: file://result.html
+          to: 627222344@qq.com
+          from: GitHub Actions
+          content_type: text/html
