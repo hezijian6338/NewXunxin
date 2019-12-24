@@ -4,22 +4,23 @@ on:
   push:
   schedule:
     - cron: '0 21 * * *'
-jobs: 
-  job_id:
-    runs-on: ubuntu-18.04
+
+jobs:
+  bot:
+    runs-on: ubuntu-latest
     steps:
       - name: 'Checkout codes'
         uses: actions/checkout@v1
-      - name: 'Get weather report'
+      - name: 'Get Result'
         run: bash ./weather.sh
       - name: 'Send mail'
         uses: dawidd6/action-send-mail@master
         with:
-          serveraddress: smtp.163.com
-          serverport: 465
-          username: ${{ secrets.MAILUSERNAME }}
-          password: ${{ secrets.MAILPASSWORD }}
-          subject: Zhuhai Weather Report
+          server_address: smtp.163.com
+          server_port: 465
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: Shanghai Weather Report
           body: file://result.html
           to: 627222344@qq.com
           from: hezijian6338@163.com
